@@ -7,15 +7,21 @@ import db, { auth } from "./firebase";
 function App() {
   const [recipes, setRecipe] = useState({});
   const [user, setUser] = useState(false);
+  const [isAdmin, setAdmin] = useState(false);
 
   // check user if logged in
   auth.onAuthStateChanged(user => {
     if (user) {
       console.log("user logged in:", user.email);
+      user.getIdTokenResult().then(getIdTokenResult => {
+        user.admin = getIdTokenResult.claims.admin;
+        setAdmin(user.admin);
+      });
       setUser(true);
     } else {
       console.log("user logged out");
       setUser(false);
+      setAdmin(false);
     }
   });
 
@@ -68,6 +74,7 @@ function App() {
         recipes={recipes}
         deleteRecipe={deleteRecipe}
         user={user}
+        userIsAdmin={isAdmin}
       />
     </Layout>
   );

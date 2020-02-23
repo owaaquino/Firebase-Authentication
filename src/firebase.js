@@ -17,10 +17,10 @@ const firebaseApp = firebase.initializeApp({
 
 const auth = firebaseApp.auth();
 const db = firebaseApp.firestore();
-const function = firebaseApp.functions();
+const functions = firebaseApp.functions();
 
 Rebase.createClass(db);
 
-export { auth };
+export { auth, functions };
 
 export default db;
